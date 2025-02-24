@@ -1,9 +1,16 @@
 package main
 
 import (
-	"fmt"
+    "log"
+    "net/http"
+    "itc/config"
+    "itc/router"
 )
 
 func main() {
-	fmt.Println("Hello from the income tax calculator app")
+    cfg := config.LoadConfig()
+    r := router.SetupRouter()
+
+    log.Println("Server running on port", cfg.ServerPort)
+    log.Fatal(http.ListenAndServe(":"+cfg.ServerPort, r))
 }

@@ -1,0 +1,19 @@
+{
+  "gross_income": 1200000,
+  "employer_pf": 50000,
+  "employee_pf": 50000,
+  "nps_contribution": 20000,
+  "opt_old_regime": true,
+  "savings_interest": 15000,
+  "capital_gains": true,
+  "short_term_gains": 100000,
+  "long_term_gains": 200000,
+  "hra": 150000,
+  "rent_paid": 20000,
+  "metro_city": true,
+  "section_80c_invest": 100000,
+  "section_80d_health": 25000,
+  "senior_citizen": false,
+  "parents_senior_citizen": true
+}
+
