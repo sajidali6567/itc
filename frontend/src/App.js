@@ -20,6 +20,7 @@ export default function TaxCalculatorForm() {
   });
   
   const [taxResult, setTaxResult] = useState(null);
+  const [showSavingsMessage, setShowSavingsMessage] = useState(false);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -27,6 +28,14 @@ export default function TaxCalculatorForm() {
       ...formData,
       [name]: type === "radio" ? value === "true" : value,
     });
+  };
+
+  const handleSavingsBlur = () => {
+    if (formData.savingsInterest !== "") {
+      setShowSavingsMessage(true);
+    } else {
+      setShowSavingsMessage(false);
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -90,23 +99,19 @@ export default function TaxCalculatorForm() {
             <input type="number" name="employeeNps" value={formData.employeeNps} onChange={handleChange} className="w-full p-3 border rounded-lg shadow-sm" />
 
             <label className="block font-medium text-white">Interest from Saving Account</label>
-            <input type="number" name="savingsInterest" value={formData.savingsInterest} onChange={handleChange} className="w-full p-3 border rounded-lg shadow-sm" />
-            <p className="text-sm text-gray-300">10k exempted under Section 12 TTA; rest are taxable</p>
+            <input type="number" name="savingsInterest" value={formData.savingsInterest} onChange={handleChange} onBlur={handleSavingsBlur} className="w-full p-3 border rounded-lg shadow-sm" />
+            {showSavingsMessage && formData.savingsInterest !== "" && (
+              <p className="text-sm text-gray-300">
+                {formData.savingsInterest <= 10000
+                  ? `₹${formData.savingsInterest} is exempted under Section 12 TTA`
+                  : `₹10000 is exempted under Section 12 TTA and ₹${formData.savingsInterest - 10000} is taxable as per slab`}
+              </p>
+            )}
           </>
         )}
 
         <button type="submit" className="w-full bg-white text-blue-600 p-3 rounded-lg shadow-md hover:bg-gray-200">Calculate Tax</button>
       </form>
-      {taxResult && (
-        <div className="mt-6 p-4 bg-white text-blue-600 rounded-lg shadow-lg">
-          <h3 className="text-lg font-bold">Tax Calculation Result</h3>
-          <div className="space-y-2">
-            {Object.entries(taxResult).map(([key, value]) => (
-              <p key={key}><strong>{key.replace(/([A-Z])/g, ' $1')}:</strong> {value}</p>
-            ))}
-          </div>
-        </div>
-      )}
     </div>
   );
 }
