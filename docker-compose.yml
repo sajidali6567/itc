@@ -1,15 +1,25 @@
-version: '3.8'
+version: "3.8"
 
 services:
   backend:
     build: ./backend
     ports:
       - "8080:8080"
-  
+    environment:
+      - PORT=8080
+    restart: always
+
   frontend:
     build: ./frontend
     ports:
       - "8081:8081"
     depends_on:
       - backend
+    environment:
+      - REACT_APP_BACKEND_URL=http://backend:8080
+    restart: always
 
+
+Steps to Use:
+Ensure your backend/Dockerfile and frontend/Dockerfile are correctly set up.
+In your frontend code, update API requests to use REACT_APP_BACKEND_URL (e.g., process.env.REACT_APP_BACKEND_URL).
