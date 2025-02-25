@@ -8,6 +8,12 @@ import (
 )
 
 func CalculateTax(w http.ResponseWriter, r *http.Request) {
+
+    if r.Body == nil {
+        http.Error(w, "Empty request body", http.StatusBadRequest)
+        return
+    }
+
     var taxReq models.TaxRequest
     if err := json.NewDecoder(r.Body).Decode(&taxReq); err != nil {
         http.Error(w, "Invalid input", http.StatusBadRequest)
